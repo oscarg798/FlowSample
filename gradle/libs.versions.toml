@@ -1,0 +1,184 @@
+[libraries]
+
+kotlin-stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10"
+kotlin-reflect = "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
+
+androidx-appcompat = "androidx.appcompat:appcompat:1.4.0"
+androidx-coreKtx = "androidx.core:core-ktx:1.7.0"
+androix-activityx = "androidx.activity:activity-ktx:1.4.0"
+androidx-constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.0"
+androidx-preference = "androidx.preference:preference:1.1.1"
+androidx-transition = "androidx.transition:transition:1.4.1"
+androidx-browser = "androidx.browser:browser:1.3.0"
+androidx-arch-core = "androidx.arch.core:core-testing:2.1.0"
+
+androidx-lifecycle-runtime = "androidx.lifecycle:lifecycle-runtime:2.4.0"
+androidx-lifecycle-common = "androidx.lifecycle:lifecycle-common-java8:2.3.1"
+androidx-lifecycle-extensions = "androidx.lifecycle:lifecycle-extensions:2.2.0"
+androidx-lifecycle-viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0-alpha02"
+androidx-lifecycle-livedata = "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
+androidx-lifecycle-savedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1"
+androidx-lifecycle-core = "androidx.lifecycle:lifecycle-livedata-core-ktx:2.3.1"
+
+androidx-room-runtime = "androidx.room:room-runtime:2.4.2"
+androidx-room-rxjava2 = "androidx.room:room-rxjava2:2.4.2"
+androidx-room-ktx = "androidx.room:room-ktx:2.4.2"
+androidx-room-compiler = "androidx.room:room-compiler:2.4.2"
+androidx-room-testing = "androidx.room:room-testing:2.4.2"
+
+androidx-fragment-ktx = "androidx.fragment:fragment-ktx:1.4.1"
+androidx-fragment-testing = "androidx.fragment:fragment-testing:1.3.6"
+
+androidx-work-runtime = "androidx.work:work-runtime:2.5.0"
+androidx-work-gcm = "androidx.work:work-gcm:2.5.0"
+androidx-work-testing = "androidx.work:work-testing:2.5.0"
+
+androidx-splashscreen = "androidx.core:core-splashscreen:1.0.0-alpha02"
+
+gms-gcm = "com.google.android.gms:play-services-gcm:17.0.0"
+gms-tagmanager = "com.google.android.gms:play-services-tagmanager:17.0.0"
+gms-location = "com.google.android.gms:play-services-location:18.0.0"
+gms-oss = "com.google.android.gms:play-services-oss-licenses:17.0.0"
+gms-maps = "com.google.android.gms:play-services-maps:17.0.1"
+
+dagger-dagger = "com.google.dagger:dagger:2.40.5"
+dagger-compiler = "com.google.dagger:dagger-compiler:2.35.1"
+
+rxjava2-rxjava = "io.reactivex.rxjava2:rxjava:2.2.21"
+rxjava2-rxkotlin = "io.reactivex.rxjava2:rxkotlin:2.4.0"
+rxjava2-rxandroid = "io.reactivex.rxjava2:rxandroid:2.1.1"
+
+timber-timber = "com.jakewharton.timber:timber:5.0.1"
+timber-junit = "net.lachlanmckee:timber-junit-rule:1.0.1"
+
+retrofit2-base = "com.squareup.retrofit2:retrofit:2.9.0"
+retrofit2-adapter = "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
+retrofit2-converter = "com.squareup.retrofit2:converter-gson:2.9.0"
+retrofit2-scarlars = "com.squareup.retrofit2:converter-scalars:2.9.0"
+
+okhttp3-base = "com.squareup.okhttp3:okhttp:4.9.1"
+okhttp3-logging = "com.squareup.okhttp3:logging-interceptor:4.9.1"
+mockWebServer = "com.squareup.okhttp3:mockwebserver:4.9.1"
+
+epoxy-epoxy = "com.airbnb.android:epoxy:4.6.2"
+epoxy-processor = "com.airbnb.android:epoxy-processor:4.6.2"
+
+glide-glide = "com.github.bumptech.glide:glide:4.12.0"
+glide-okhttp3 = "com.github.bumptech.glide:okhttp3-integration:4.12.0"
+glide-compiler = "com.github.bumptech.glide:compiler:4.12.0"
+
+firebase-boom = "com.google.firebase:firebase-bom:28.4.1"
+firebase-analytics = "com.google.firebase:firebase-analytics:19.0.1"
+firebase-perf = "com.google.firebase:firebase-perf:20.0.2"
+firebase-appindexing = "com.google.firebase:firebase-appindexing:20.0.0"
+firebase-messaging = "com.google.firebase:firebase-messaging:22.0.0"
+firebase-auth = "com.google.firebase:firebase-auth:21.0.1"
+firebase-crashlytics = "com.google.firebase:firebase-crashlytics:18.2.1"
+firebase-firestore = "com.google.firebase:firebase-firestore-ktx:23.0.3"
+
+mockito-core = "org.mockito:mockito-core:3.12.4"
+mockito-android = "org.mockito:mockito-android:3.12.4"
+mockito-nhaarman = "com.nhaarman:mockito-kotlin:1.6.0"
+mockito-kotlin = "org.mockito.kotlin:mockito-kotlin:3.2.0"
+
+leakcanary-android = "com.squareup.leazkcanary:leakcanary-android:2.6"
+leakcanary-instrumentation = "com.squareup.leakcanary:leakcanary-android-instrumentation:2.6"
+
+coroutines-core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
+coroutines-android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
+coroutines-test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
+
+zxing-core = "com.google.zxing:core:3.4.1"
+
+junit-base = "junit:junit:4.13.2"
+
+material = "com.google.android.material:material:1.4.0"
+supercluster = "hu.supercluster:paperwork:1.2.7"
+queueit = "com.queue-it.androidsdk:library-androidx:2.0.34"
+assertj = "org.assertj:assertj-core:3.16.1"
+wiremock = "com.github.tomakehurst:wiremock-standalone:2.26.3"
+idler = "com.squareup.rx.idler:rx2-idler:0.11.0"
+photoview = "com.github.chrisbanes:PhotoView:2.3.0"
+gravitysnaphelper = "com.github.rubensousa:gravitysnaphelper:2.2.1"
+gson = "com.google.code.gson:gson:2.8.6"
+lokalise = "com.lokalise.android:sdk:2.0.0-beta-10"
+
+compose-activity = 'androidx.activity:activity-compose:1.4.0'
+compose-material = 'androidx.compose.material:material:1.1.1'
+compose-material3 = 'androidx.compose.material3:material3:1.0.0-alpha02'
+compose-animation = 'androidx.compose.animation:animation:1.1.1'
+compose-tooling = 'androidx.compose.ui:ui-tooling:1.1.1'
+compose-viewmodel = 'androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07'
+compose-runtime = "androidx.compose.runtime:runtime:1.1.1"
+compose-runtimeLivedata = "androidx.compose.runtime:runtime-livedata:1.1.1"
+compose-uiTest = "androidx.compose.ui:ui-test-junit4:1.0.1"
+compose-ui = "androidx.compose.ui:ui:1.1.1"
+compose-foundation = "androidx.compose.foundation:foundation:1.1.1"
+compose-icons = "androidx.compose.material:material-icons-core:1.1.1"
+compose-iconsExtended = "androidx.compose.material:material-icons-extended:1.1.1"
+compose-constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-beta02"
+compose-compiler = "androidx.compose.compiler:compiler:1.1.1"
+compose-manifest = "androidx.compose.ui:ui-test-manifest:1.1.1"
+
+mockk-base = "io.mockk:mockk:1.12.0"
+mockk-android = "io.mockk:mockk-android:1.12.0"
+
+androidx-test-junit = "androidx.test.ext:junit:1.1.3"
+androidx-test-core = "androidx.test:core:1.4.0"
+androidx-test-corektx = "androidx.test:core-ktx:1.4.0"
+androidx-test-rules = "androidx.test:rules:1.4.0"
+androidx-test-runner = "androidx.test:runner:1.4.0"
+androidx-test-orchestrator = "androidx.test:orchestrator:1.4.0"
+androidx-test-uiautomator = "androidx.test.uiautomator:uiautomator:2.2.0"
+
+androidx-test-espresso-core = "androidx.test.espresso:espresso-core:3.4.0"
+androidx-test-espresso-intents = "androidx.test.espresso:espresso-intents:3.4.0"
+androidx-test-espresso-contrib = "androidx.test.espresso:espresso-contrib:3.4.0"
+androidx-test-espresso-web = "androidx.test.espresso:espresso-web:3.4.0"
+
+joda-android = "net.danlew:android.joda:2.10.9.1"
+joda-money = "org.joda:joda-money:1.0.1"
+joda-time = "joda-time:joda-time:2.10.3"
+
+androidx-navigation-fragment = "androidx.navigation:navigation-fragment-ktx:2.4.2"
+androidx-navigation-ui = "androidx.navigation:navigation-ui-ktx:2.4.2"
+androidx-navigation-component = "androidx.navigation:navigation-ui:2.4.2"
+androidx-navigation-testing = "androidx.navigation:navigation-testing:2.4.1"
+androidx-navigation-compose = "androidx.navigation:navigation-compose:2.4.2"
+
+android-gms-auth = "com.google.android.gms:play-services-auth:19.2.0"
+
+hilt-android = "com.google.dagger:hilt-android:2.40.5"
+hilt-androidCompiler = "com.google.dagger:hilt-android-compiler:2.40.5"
+hilt-androidTesting = "com.google.dagger:hilt-android-testing:2.40.5"
+hilt-viewModel = "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02"
+hilt-common = "androidx.hilt:hilt-common:1.0.0-alpha02"
+hilt-compose = "androidx.hilt:hilt-navigation-compose:1.0.0-rc01"
+hilt-compiler = "androidx.hilt:hilt-compiler:1.0.0"
+hilt-dagger-compiler = "com.google.dagger:hilt-compiler:2.40.5"
+hilt-navigation = "androidx.hilt:hilt-navigation-fragment:1.0.0"
+hilt-work = "androidx.hilt:hilt-work:1.0.0"
+
+lottie-main = "com.airbnb.android:lottie:$lottie_version"
+lottie-compose = "com.airbnb.android:lottie-compose:4.0.0"
+
+arrow-sintax = "io.arrow-kt:arrow-syntax:0.13.2"
+arrow-meta = "io.arrow-kt:arrow-meta:0.13.2"
+arrow-core = "io.arrow-kt:arrow-core:0.13.2"
+
+workManager-ktx = "androidx.work:work-runtime-ktx:2.7.0-rc01"
+
+compose-dialogs = "io.github.vanpra.compose-material-dialogs:datetime:0.6.1"
+
+accompanist-pager = "com.google.accompanist:accompanist-pager:0.23.0"
+accompanist-pagerIndicator = "com.google.accompanist:accompanist-pager-indicators:0.23.0"
+accompanist-insets = "com.google.accompanist:accompanist-insets:0.23.0"
+accompanist-placeholder = "com.google.accompanist:accompanist-placeholder-material:0.23.0"
+accompanist-flowLayout = "com.google.accompanist:accompanist-flowlayout:0.23.0"
+accompanist-swipeToRefresh = "com.google.accompanist:accompanist-swiperefresh:0.23.0"
+
+reorderable = "org.burnoutcrew.composereorderable:reorderable:0.7.0"
+
+turbine = "app.cash.turbine:turbine:0.7.0"
+landscapist-glide = "com.github.skydoves:landscapist-glide:1.4.4"
+landscapist-fresco = "com.github.skydoves:landscapist-fresco:1.4.4"

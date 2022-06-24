@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">FlowSample</string>
+    <string name="name_hint">Name</string>
+    <string name="lastname_hint">LastName</string>
+    <string name="email_hint">Email</string>
+    <string name="collect_title">This is the information that will be submitted</string>
+    <string name="submit_hint">Submit</string>
+    <string name="swipe_to_continue">Swipe to continue</string>
+</resources>

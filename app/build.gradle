@@ -1,0 +1,92 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        applicationId "com.oscarg798"
+        minSdk 26
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+
+    implementation libs.hilt.android
+    kapt libs.hilt.androidCompiler
+    kapt libs.hilt.dagger.compiler
+
+    implementation libs.androidx.coreKtx
+    implementation libs.androidx.appcompat
+    implementation libs.material
+    implementation libs.compose.material
+    implementation libs.compose.ui
+    implementation libs.compose.tooling
+    implementation libs.androidx.lifecycle.runtime
+    implementation libs.compose.activity
+    implementation libs.accompanist.placeholder
+    implementation libs.accompanist.flowLayout
+    implementation libs.androidx.lifecycle.extensions
+    implementation libs.androix.activityx
+    implementation libs.androidx.lifecycle.viewmodel
+    implementation libs.androidx.fragment.ktx
+
+    implementation libs.accompanist.placeholder
+
+    implementation libs.androidx.navigation.fragment
+    implementation libs.androidx.navigation.ui
+    implementation libs.androidx.navigation.component
+
+    implementation libs.accompanist.swipeToRefresh
+
+    implementation libs.compose.constraintLayout
+
+    implementation libs.accompanist.pager
+
+
+    implementation libs.coroutines.android
+
+    testImplementation libs.junit.base
+    testImplementation libs.turbine
+    testImplementation libs.mockk.base
+    testImplementation libs.coroutines.test
+
+    implementation "androidx.fragment:fragment:1.4.1"
+}

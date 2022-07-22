@@ -16,4 +16,9 @@
         android:id="@+id/addFragment"
         android:name="com.oscarg798.add.AddFragment"
         android:label="AddFragment" />
+
+    <dialog
+        android:id="@+id/addDocuments"
+        android:name="com.oscarg798.add.adddocument.AddDocumentDialogFragment" />
+
 </navigation>

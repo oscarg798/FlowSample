@@ -1,13 +1,15 @@
 package com.oscarg798
 
+import com.oscarg798.add.AddFlowScope
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@ActivityRetainedScoped
+@Singleton
 class PeopleRepository @Inject constructor(
     private val uuidProvider: UUIDProvider
 ) {

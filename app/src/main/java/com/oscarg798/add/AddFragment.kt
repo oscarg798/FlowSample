@@ -8,7 +8,6 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -24,45 +23,47 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.view.marginEnd
-import androidx.core.view.setPadding
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import androidx.viewpager2.widget.ViewPager2
+import androidx.navigation.navOptions
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import com.oscarg798.MultipleDocsField
 import com.oscarg798.R
-import com.oscarg798.add.flow.CompletionFragment
-import com.oscarg798.add.flow.EmailFragment
-import com.oscarg798.add.flow.NameFragment
 import com.oscarg798.ui.theme.Background
 import com.oscarg798.ui.theme.FlowSampleTheme
 import com.oscarg798.ui.theme.PageBackground
-import dagger.Binds
+import dagger.hilt.EntryPoints
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.inject.Singleton
+import javax.inject.Provider
 
 @AndroidEntryPoint
-class AddFragment : Fragment() {
+class AddFragment : Fragment(), AddFlowComponentProvider {
 
-    private val viewModel: AddViewModel by viewModels()
+    private lateinit var viewModel: AddViewModel
+
+    @Inject
+    lateinit var componentProvider: Provider<AddFlowComponent.Builder>
+
+    private lateinit var component: AddFlowComponent
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        component = componentProvider.get().build()
+        viewModel =EntryPoints.get(component, AddViewModelEntryPoint::class.java).getAddViewModel()
+    }
 
     @OptIn(ExperimentalPagerApi::class)
     override fun onCreateView(
@@ -88,15 +89,25 @@ class AddFragment : Fragment() {
                     LaunchedEffect(key1 = events) {
                         val event = events ?: return@LaunchedEffect
 
-                        if (event is AddViewModel.Event.ReturnToList) {
-                            findNavController().popBackStack()
-                        } else if (event is AddViewModel.Event.SwipeBack) {
-                            pagerState.scrollToPage(pagerState.currentPage - 1)
+                        when (event) {
+                            is AddViewModel.Event.ReturnToList -> {
+                                findNavController().popBackStack()
+                            }
+                            is AddViewModel.Event.SwipeBack -> {
+                                pagerState.scrollToPage(pagerState.currentPage - 1)
+                            }
+                            is AddViewModel.Event.OpenAdd -> {
+                                findNavController().navigate(R.id.addDocuments, args = bundleOf(
+                                    "FIELD_ID" to event.fieldId
+                                ), navOptions {
+                                    launchSingleTop = false
+                                })
+                            }
+                            AddViewModel.Event.None -> {}
                         }
                     }
 
                     ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
-
 
 
                     Scaffold(
@@ -113,6 +124,10 @@ class AddFragment : Fragment() {
                                     viewModel.onNameChange(it)
                                 }, onLastNameChange = {
                                     viewModel.onLastNameChange(it)
+                                }, onDocumentDeleted = { fieldId, document ->
+                                    viewModel.onDeleteClicked(fieldId, document)
+                                }, onAddDocument = {
+                                    viewModel.onAddClicked(it)
                                 })
                                 1 -> FlowPageTwo(state) {
                                     viewModel.onEmailChange(it)
@@ -127,6 +142,8 @@ class AddFragment : Fragment() {
             }
         }
     }
+
+    override fun provide(): AddFlowComponent = component
 }
 
 @Composable
@@ -146,6 +163,7 @@ private fun FlowZero(state: AddViewModel.State, onReady: (Int) -> Unit) {
             }, modifier = Modifier
                 .background(PageBackground)
                 .weight(.8f)
+                .fillMaxWidth()
                 .padding(16.dp)
         ) {
             it.findViewById<LinearLayout>(R.id.linear).apply {
@@ -161,8 +179,8 @@ private fun FlowZero(state: AddViewModel.State, onReady: (Int) -> Unit) {
                     }
                 }
 
-
             }
+
         }
 
         Button(
@@ -178,11 +196,14 @@ private fun FlowZero(state: AddViewModel.State, onReady: (Int) -> Unit) {
 
 }
 
+
 @Composable
 private fun FlowPageOne(
     state: AddViewModel.State,
     onNameChange: (String) -> Unit,
-    onLastNameChange: (String) -> Unit
+    onLastNameChange: (String) -> Unit,
+    onDocumentDeleted: (fieldId: String, document: String) -> Unit,
+    onAddDocument: (String) -> Unit
 ) {
 
     FlowPage(
@@ -221,6 +242,18 @@ private fun FlowPageOne(
                 singleLine = true,
                 isError = state.errors == AddViewModel.State.DataError.NameError
             )
+
+            MultipleDocsField(documents = state.documents1, onDelete = {
+                onDocumentDeleted(AddViewModel.field1Id, it)
+            }, onAddPressed = {
+                onAddDocument(AddViewModel.field1Id)
+            }, collapseMode = true, modifier = Modifier.fillMaxWidth())
+
+            MultipleDocsField(documents = state.documents2, onDelete = {
+                onDocumentDeleted(AddViewModel.field2Id, it)
+            }, onAddPressed = {
+                onAddDocument(AddViewModel.field2Id)
+            }, collapseMode = true, modifier = Modifier.fillMaxWidth())
         }
     }
 }
@@ -249,3 +282,4 @@ private fun FlowPageTwo(
         }
     }
 }
+

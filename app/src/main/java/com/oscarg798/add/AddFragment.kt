@@ -34,6 +34,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.navOptions
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -41,6 +43,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.oscarg798.MultipleDocsField
 import com.oscarg798.R
+import com.oscarg798.add.adddocument.DocumentData
 import com.oscarg798.ui.theme.Background
 import com.oscarg798.ui.theme.FlowSampleTheme
 import com.oscarg798.ui.theme.PageBackground
@@ -50,19 +53,19 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 @AndroidEntryPoint
-class AddFragment : Fragment(), AddFlowComponentProvider {
+class AddFragment : Fragment() {
 
-    private lateinit var viewModel: AddViewModel
+    private val  viewModel: AddViewModel by viewModels()
 
-    @Inject
-    lateinit var componentProvider: Provider<AddFlowComponent.Builder>
-
-    private lateinit var component: AddFlowComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        component = componentProvider.get().build()
-        viewModel =EntryPoints.get(component, AddViewModelEntryPoint::class.java).getAddViewModel()
+
+        setFragmentResultListener("DOCUMENTS") { key, bundle ->
+            if(key == "DOCUMENTS" && bundle.containsKey("DOCUMENTS")){
+                viewModel.onDocumentsUpdated(bundle.getParcelable("DOCUMENTS")!!)
+            }
+        }
     }
 
     @OptIn(ExperimentalPagerApi::class)
@@ -98,7 +101,11 @@ class AddFragment : Fragment(), AddFlowComponentProvider {
                             }
                             is AddViewModel.Event.OpenAdd -> {
                                 findNavController().navigate(R.id.addDocuments, args = bundleOf(
-                                    "FIELD_ID" to event.fieldId
+                                    "DOCUMENTS" to DocumentData(
+                                        documents = event.documents,
+                                        fieldId = event.fieldId,
+
+                                    )
                                 ), navOptions {
                                     launchSingleTop = false
                                 })
@@ -143,7 +150,6 @@ class AddFragment : Fragment(), AddFlowComponentProvider {
         }
     }
 
-    override fun provide(): AddFlowComponent = component
 }
 
 @Composable

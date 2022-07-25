@@ -2,9 +2,7 @@ package com.oscarg798.add
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oscarg798.add.adddocument.DocumentRepository
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import com.oscarg798.add.adddocument.DocumentData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
@@ -12,7 +10,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -22,11 +19,10 @@ import java.util.UUID
 import javax.inject.Inject
 import kotlin.random.Random
 
-@AddFlowScope
+@HiltViewModel
 class AddViewModel @Inject constructor(
     private val addPeople: AddPeople,
-    private val isNameValid: IsNameValid,
-    private val documentRepository: DocumentRepository
+    private val isNameValid: IsNameValid
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(State())
@@ -39,33 +35,35 @@ class AddViewModel @Inject constructor(
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
 
-    init {
-        viewModelScope.launch {
-            documentRepository.getDocuments(field1Id).collect { documents ->
-                _state.update2 {
-                    it.copy(documents1 = documents.toList())
-                }
-            }
-        }
-
-        viewModelScope.launch {
-            documentRepository.getDocuments(field2Id).collect { documents ->
-                _state.update2 {
-                    it.copy(documents2 = documents.toList())
-                }
-            }
-        }
-    }
 
     val event: Flow<Event> = _events
 
     fun onAddClicked(fieldId: String) {
-        _events.tryEmit(Event.OpenAdd(fieldId))
+        if(fieldId == field1Id){
+            _events.tryEmit(Event.OpenAdd(fieldId, _state.value.documents1))
+        }else{
+            _events.tryEmit(Event.OpenAdd(fieldId, _state.value.documents2))
+        }
+
     }
 
     fun onDeleteClicked(fieldId: String, document: String) {
         viewModelScope.launch {
-            documentRepository.deleteDocument(fieldId, document)
+            _state.update {
+                if (fieldId == field1Id) {
+                    it.copy(
+                        documents1 = it.documents1.toMutableList().apply {
+                            remove(document)
+                        }
+                    )
+                } else {
+                    it.copy(
+                        documents2 = it.documents2.toMutableList().apply {
+                            remove(document)
+                        }
+                    )
+                }
+            }
         }
     }
 
@@ -126,6 +124,26 @@ class AddViewModel @Inject constructor(
         }
     }
 
+    fun onDocumentsUpdated(documentData: DocumentData){
+        viewModelScope.launch {
+
+               if (documentData.fieldId == field1Id) {
+                   _state.update {
+                       it.copy(
+                           documents1 = documentData.documents
+                       )
+                   }
+               } else if(documentData.fieldId == field2Id){
+                   _state.update {
+                       it.copy(
+                           documents2 = documentData.documents
+                       )
+                   }
+               }
+
+        }
+    }
+
     private fun MutableStateFlow<State>.update2(update: (State) -> State) {
         viewModelScope.launch {
             mutex.withLock {
@@ -156,7 +174,10 @@ class AddViewModel @Inject constructor(
         object None : Event
         object ReturnToList : Event
         object SwipeBack : Event
-        data class OpenAdd(val fieldId: String) : Event
+        data class OpenAdd(
+            val fieldId: String,
+            val documents: List<String>
+        ) : Event
     }
 
     companion object {

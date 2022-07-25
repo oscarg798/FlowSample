@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.collectAsState
@@ -14,14 +13,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.oscarg798.MultipleDocsField
-import com.oscarg798.add.AddDocumentDialogComponentEntryPoint
-import com.oscarg798.add.AddFlowComponentProvider
-import dagger.hilt.EntryPoints
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import javax.inject.Provider
@@ -30,23 +28,22 @@ import javax.inject.Provider
 @AndroidEntryPoint
 class AddDocumentDialogFragment : DialogFragment() {
 
-    private  val addDocumentsViewModelFactory: AddDocumentsViewModel.AddDocumentsViewModelFactory by lazy {
-        EntryPoints.get(
-            (requireParentFragment().childFragmentManager.fragments[0] as AddFlowComponentProvider).provide(),
-            AddDocumentDialogComponentEntryPoint::class.java
-        ).getAddDocumentsViewModelFactory()
-    }
+    @Inject
+    lateinit var addDocumentsViewModelFactory: AddDocumentsViewModel.AddDocumentsViewModelFactory
 
     private val viewModel: AddDocumentsViewModel by viewModels {
         ViewModelFactory.from {
-            addDocumentsViewModelFactory.create(requireArguments().getString("FIELD_ID")!!)
+            addDocumentsViewModelFactory.create(requireArguments().getParcelable("DOCUMENTS")!!)
         }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog =  super.onCreateDialog(savedInstanceState)
+        val dialog = super.onCreateDialog(savedInstanceState)
 
-        dialog.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        dialog.window!!.setLayout(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        );
 
         return dialog
     }
@@ -59,6 +56,15 @@ class AddDocumentDialogFragment : DialogFragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 val state by viewModel.state.collectAsState(initial = AddDocumentsViewModel.State())
+
+                setFragmentResult(
+                    "DOCUMENTS", bundleOf(
+                        "DOCUMENTS" to DocumentData(
+                            state.documents,
+                            state.fieldId
+                        )
+                    )
+                )
 
                 MultipleDocsField(
                     modifier = Modifier
